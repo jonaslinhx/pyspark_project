@@ -1,0 +1,34 @@
+{
+    "eventHeader": {
+        "eventIdentifier": "string",
+        "eventType": "string",
+        "majorSchemaVersion": 1,
+        "minorSchemaVersion": 0,
+        "eventDateTime": "string"
+    }, 
+    "keys": [{"keyField":"string", "keyValue":"string"}],
+    "payload": {
+        "contractIdentifier": {"operation": "INSERT", "newValue": "new-value"},
+        "sourceSystemIdentifier": {"operation": "INSERT", "newValue": "string"},
+        "contactStartDateTime": {"operation":"INSERT", "newValue": "account_start_date from accounts"}, 
+        "contractTitle": {
+            "operation": "INSERT",
+            "newValue": [
+                {"contractTitleLineType":"lgl_ttl_ln_1", "contractTitleLine": "str"},
+                {"contractTitleLineType":"lgl_ttl_ln_2", "contractTitleLine": "str"}
+            ]
+        },
+        "taxIdentifier": {},
+        "contractBranchCode": {},
+        "contractCountry": {},
+        "partyRelations": [
+            {
+                "partyIdentifier": {},
+                "partyRelationshipType": {},
+                "partyRelationStartDateTime": {},
+                "partyAddress": {}
+            },
+            {}
+        ] //array of partites and their addresses
+    }
+}
