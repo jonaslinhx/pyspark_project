@@ -1,3 +1,7 @@
+# Files
 /workspace.xml
+
+# Directory
 .idea/*
 lib/__pycache__/*
+logs
