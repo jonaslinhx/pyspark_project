@@ -1,32 +1,36 @@
 import logging
+import configparser
+
+from typing import List
 from datetime import datetime
+from pyspark import SparkConf
 from pyspark.sql import SparkSession
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def get_spark_session(env:str, app_name:str, log4j_file:str, log_dir:str):
-    
-    logfile_name = f"{app_name}-{datetime.today().isoformat()}"
-    
-    if env == "LOCAL":
 
-        master = "local[2]"
-        logger.info(f"Spark Session [{env}] master: {master}")
+def get_config(config_files:list, section:str) -> List[dict]:
 
-        # -D{variable_name_for log4j.properties}
-        return SparkSession.builder \
-            .config('spark.driver.extraJavaOptions', f'-Dlog4j.configuration=file:{log4j_file} -Dspark.yarn.app.container.log.dir={log_dir} -Dlogfile.name={logfile_name}') \
-            .appName(app_name) \
-            .master(master) \
-            .enableHiveSupport() \
-            .getOrCreate()
+        spark_conf = SparkConf()
+
+        for config_file in config_files:
+
+            config = configparser.ConfigParser()
+            config.read_file(open(config_file))
+
+            for key,value in config.items(section):
+                 
+                 spark_conf.set(key, value)
+
+        return spark_conf
+
+
+def get_spark_session(env:str, conf_files:list): # log4j_file:str, log_dir:str, 
     
-    else:
-        
-        logger.info(f"Spark Session [{env}]")
-        
-        return SparkSession.builder \
-            .appName(app_name) \
-            .enableHiveSupport() \
-            .getOrCreate()
+    spark_conf = get_config(conf_files, env)
+
+    logger.info(spark_conf.getAll())
+
+    return SparkSession.builder\
+        .config(conf=spark_conf).enableHiveSupport().getOrCreate()

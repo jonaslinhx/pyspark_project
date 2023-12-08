@@ -6,9 +6,7 @@ class Log4J:
             spark: SparkSession object
         """
         log4j = spark._jvm.org.apache.log4j 
-        conf = spark.sparkContext.getConf() # NOTE: Get access to the $SPARK_HOME/conf/*.conf used for this application
-        app_name = conf.get("spark.app.name")
-        self.logger = log4j.LogManager.getLogger(app_name)
+        self.logger = log4j.LogManager.getLogger("pyspark_project") # follow log4j.properties
 
     def warn(self, message:str):
         self.logger.warn(message)
