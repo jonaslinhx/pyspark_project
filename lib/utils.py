@@ -9,6 +9,13 @@ from pyspark.sql import SparkSession
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+def get_project_conf(env, config_path:str) -> dict:
+    config = configparser.ConfigParser()
+    config.read_file(open(config_path))
+    conf = {}
+    for key,value in config.items(env):
+        conf[key] = value
+    return conf
 
 def get_config(config_files:list, section:str) -> List[dict]:
 
@@ -33,4 +40,14 @@ def get_spark_session(env:str, conf_files:list): # log4j_file:str, log_dir:str,
     logger.info(spark_conf.getAll())
 
     return SparkSession.builder\
-        .config(conf=spark_conf).enableHiveSupport().getOrCreate()
+            .config(conf=spark_conf)\
+            .enableHiveSupport()\
+            .getOrCreate()
+
+def get_data_filter(env, data_filter):
+    config = configparser.ConfigParser()
+    config.read("conf/pyspark_project.conf")
+    conf = {}
+    for (key,value) in config.items(env):
+        conf[key] = value
+    return "true" if conf[data_filter] else conf[data_filter]   
