@@ -82,3 +82,12 @@ pipenv install specific_package
 # Kafka
 - Kafka only accepts key-value dataframe
 - Data sent to kafka has to be a 2 column dataframe: first column is the key and second column is the value (json string)
+
+# Unit Testing
+- Create test file
+    - File name must start with `test_` or end with `_test.py`
+- Import pytest package
+- Create pytest fixture
+    - Fixtures are variables or functions that we need to provide context for tests.
+    - Fixtures have scope to define the extent of reusability.
+- Create pytest function

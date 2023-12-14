@@ -3,39 +3,17 @@ import configparser
 
 from typing import List
 from datetime import datetime
-from pyspark import SparkConf
 from pyspark.sql import SparkSession
+
+from lib import configloader
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def get_project_conf(env, config_path:str) -> dict:
-    config = configparser.ConfigParser()
-    config.read_file(open(config_path))
-    conf = {}
-    for key,value in config.items(env):
-        conf[key] = value
-    return conf
 
-def get_config(config_files:list, section:str) -> List[dict]:
-
-        spark_conf = SparkConf()
-
-        for config_file in config_files:
-
-            config = configparser.ConfigParser()
-            config.read_file(open(config_file))
-
-            for key,value in config.items(section):
-                 
-                 spark_conf.set(key, value)
-
-        return spark_conf
-
-
-def get_spark_session(env:str, conf_files:list): # log4j_file:str, log_dir:str, 
+def get_spark_session(env:str, spark_config_path:str): # log4j_file:str, log_dir:str, 
     
-    spark_conf = get_config(conf_files, env)
+    spark_conf = configloader.get_spark_conf(env, spark_config_path)
 
     logger.info(spark_conf.getAll())
 
@@ -43,11 +21,3 @@ def get_spark_session(env:str, conf_files:list): # log4j_file:str, log_dir:str,
             .config(conf=spark_conf)\
             .enableHiveSupport()\
             .getOrCreate()
-
-def get_data_filter(env, data_filter):
-    config = configparser.ConfigParser()
-    config.read("conf/pyspark_project.conf")
-    conf = {}
-    for (key,value) in config.items(env):
-        conf[key] = value
-    return "true" if conf[data_filter] else conf[data_filter]   

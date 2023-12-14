@@ -4,7 +4,9 @@ from pyspark.sql.types import (
     DateType,
     IntegerType,
     StringType,
-    TimestampType
+    TimestampType,
+    NullType,
+    ArrayType
 )
 
 account_schema = StructType([
@@ -37,4 +39,39 @@ address_schema = StructType([
     StructField("postal_code", StringType()),
     StructField("country_of_address", StringType()),
     StructField("address_start_date", DateType())
+])
+
+contract_schema = StructType([
+    StructField("account_id", StringType()),
+    StructField("contractIdentifier", 
+                StructType([StructField("operation", StringType()),
+                            StructField("newValue", StringType()),
+                            StructField("oldValue", NullType())])),
+    StructField("sourceSystemIdentifier", 
+                StructType([StructField("operation", StringType()),
+                            StructField("newValue", StringType()),
+                            StructField("oldValue", NullType())])),
+    StructField("contractStartDateTime",
+                StructType([StructField("operation", StringType()),
+                            StructField("newValue", StringType()),
+                            StructField("oldValue", NullType())])),
+    StructField("contractTitle",
+                StructType([StructField("operation", StringType()),
+                            StructField("newValue", 
+                                ArrayType(StructType([
+                                    StructField("contractTitleLineType", StringType()),
+                                    StructField("contractTitleLine", StringType())
+                                ]))
+                            ),
+                            StructField("oldValue", NullType())])),
+    StructField("taxIdentifier",
+                StructType([StructField("operation", StringType()),
+                            StructField("newValue",
+                                StructType([
+                                    StructField("taxIdType", StringType()),
+                                    StructField("taxId", StringType())
+                                ])),
+                            StructField("oldValue", NullType())])),
+    StructField("contractBranchCode", StringType()),
+    StructField("contractCountry", StringType())
 ])

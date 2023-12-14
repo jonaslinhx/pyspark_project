@@ -8,7 +8,7 @@ from pyspark.sql.functions import col, struct, to_json
 
 from lib import utils
 from lib.logger import Log4J
-from lib import dataloader, schemas, transformations
+from lib import dataloader, schemas, transformations, configloader
 
 if len(sys.argv) < 3:
     print("Usage: pyspark_proejct {local, qa, prod} {load_date} : Arguments are missing")   
@@ -17,14 +17,14 @@ if len(sys.argv) < 3:
 job_run_env: str = sys.argv[1].upper()
 load_date: str = sys.argv[2]
 job_run_id: str = f"pyspark_project-{str(uuid.uuid4())}"
-conf = utils.get_project_conf(job_run_env, "conf/pyspark_project.conf")
+conf = configloader.get_config(job_run_env, "conf/pyspark_project.conf")
 enable_hive: bool = True if conf["enable.hive"] == "true" else False 
 hive_db: Union[str,None] = conf['hive.database']
 
 # Create Session
 spark = utils.get_spark_session(
     env=job_run_env, 
-    conf_files=["conf/pyspark_project.conf", "conf/spark.conf"]
+    spark_config_path= "conf/spark.conf"
 )
 logger = Log4J(spark)
 
