@@ -1,4 +1,4 @@
-load_date,account_id,party_id,relation_start_date
+load_date,account_id,party_id,relation_type,relation_start_date
 2023-12-10,6982391060,923462810,F-N,2020-07-29T06:21:32.000+05:30
 2023-12-10,6982391061,923462811,F-N,2019-08-31T05:27:22.000+05:30
 2023-12-10,6982391062,923462812,F-N,2019-08-25T15:50:29.000+05:30
