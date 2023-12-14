@@ -47,3 +47,38 @@ Batch Data Flow Pipeline
 1. 
 ## Parties Table
 ## Party Address Table
+
+# Python Dependencies
+```
+conda create -n pyspark_project python=3.10
+conda activcate pyspark_project
+pip install pipenv
+pipenv shell
+pipenv install # reads Pipfile in project directory
+pipenv install specific_package
+```
+
+# Jenkins
+- Jenkins is a automation server using the 1 master(controler) and a few workers concept
+- Jenkins can be used for:
+    - Pull Code
+    - Compile & Build (Resolve Dependency)
+    - Runs Unit Test
+    - Check code quality (Package)
+    - Deploy to QA
+    - Runs Regression Test
+    - Deploy to PROD
+    - Automatically detect branch creation/deletion
+- Multi branch pipeline:
+    - Triggered by PR, Master branch will build, test, package, release, deploy
+    - Triggered by PR, Release branch will build, test, package
+    - Triggered by commits, Feature branches will only build and test
+- Setup:
+    - Configure Jenkins Github plugin to connect to Github source control
+    - Configure Github webhooks to connect with Jenkins server
+    - Create Jenkins file and code pipeline stages
+    - Define multibranch pipelines in Jenkins
+
+# Kafka
+- Kafka only accepts key-value dataframe
+- Data sent to kafka has to be a 2 column dataframe: first column is the key and second column is the value (json string)
