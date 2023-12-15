@@ -82,6 +82,7 @@ pipenv install specific_package
 # Kafka
 - Kafka only accepts key-value dataframe
 - Data sent to kafka has to be a 2 column dataframe: first column is the key and second column is the value (json string)
+- A topic with 6 partitions
 
 # Unit Testing
 - Create test file
@@ -91,3 +92,20 @@ pipenv install specific_package
     - Fixtures are variables or functions that we need to provide context for tests.
     - Fixtures have scope to define the extent of reusability.
 - Create pytest function
+
+# Resource Planning
+- How many cpu and memory needed for spark application.
+    - spark.driver.cores -> How much cpu cores to allocate for driver container
+    - spark.driver.memory -> How much JVM Heap memory to allocate to driver container
+    - spark.driver.memoryOverhead -> How much non-JVM off-heap memory to allocate to driver container
+    - spark.executor.cores ->
+    - spark.executor.memory
+        - spark.memory.fraction
+        - spark.memory.storageFraction
+        - spark.python.worker.memory
+    - spark.executor.memoryOverhead
+        - spark.executor.memoryOverheadFactor
+        - spark.executor.pyspark.memory
+    - spark.executor.instances
+- spark driver configurations defined in `spark-submit.sh`
+- spark executor configurations defined in application `spark.conf`
